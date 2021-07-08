@@ -1,0 +1,100 @@
+{
+	"info": {
+		"_postman_id": "f6a55c5d-594c-41ef-b1bf-456be3edbf8f",
+		"name": "Interviews",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "WorkWolf Assignment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is less than 2s\", ()=> {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", ()=> {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const env = pm.environment.get(\"env\");//get the environment of the variable\r",
+							"//\r",
+							"pm.test.skip(\"Request Environment is in production\", ()=> {\r",
+							"    pm.expect(env.to.eql(\"Production\"));\r",
+							"});\r",
+							"\r",
+							"const cook = pm.cookies;\r",
+							"pm.test.skip(\"Check if there are no cookies\", ()=>{\r",
+							"    pm.expect(cook.to.be.empty);\r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json();//js object\r",
+							"//const cook = pm.cookies;\r",
+							"// console.log(response);\r",
+							"// console.log(env);\r",
+							"console.log(cook);\r",
+							"//checks whether a response header is present\r",
+							"pm.test(\"Get Response Headers is present\", ()=> {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+							"    pm.expect(pm.response.headers.get('Connection')).to.eql('keep-alive');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"JSON response must be valid with a body\", () => {\r",
+							"     pm.response.to.be.ok;\r",
+							"     pm.response.to.be.withBody;\r",
+							"     pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"//can parse some of the other variables in the JSON format response in a similar format\r",
+							"pm.test(\"JSON Response userId variable is correct\", () => {\r",
+							"    pm.expect(response.userId).to.eql(\"cb253f91-2858-46d3-993f-dd7f735a48c4\");\r",
+							"});\r",
+							"\r",
+							"//Asserting a value type in a JSON response \r",
+							"pm.test(\"JSON Response country and activePackageid variable types are correct\", () =>{\r",
+							"    pm.expect(response.country).to.be.a(\"string\");\r",
+							"    pm.expect(response.activePackage.id).to.be.a(\"number\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://app.adm.workwolf.com/company/shareable-links/CAN/seangio",
+					"protocol": "https",
+					"host": [
+						"app",
+						"adm",
+						"workwolf",
+						"com"
+					],
+					"path": [
+						"company",
+						"shareable-links",
+						"CAN",
+						"seangio"
+					],
+					"query": [
+						{
+							"key": "userid",
+							"value": "{{userID}}",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
